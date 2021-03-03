@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {
 	//лежит в пределах от 10 до 20 (включительно), 
 	//если да – вывести true, в противном случае – false;
 	int x, y, sum;
-	x = 50, y = 10;
+	x = 15, y = -5;
 	sum = x + y;
 	if (sum >= 10 && sum <= 20) std::cout << "True\n";
 	else std::cout << "False\n";
@@ -23,5 +23,10 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	std::cout << is_prime << "\n";
+	//Task 3. Написать программу, выводящую на экран “истину”, 
+	//если две целочисленные константы, объявленные в её начале 
+	//либо равны десяти сами по себе, либо их сумма равна десяти.
+	if (x == 10 || y == 10) std::cout << "True\n";
+	else if (sum == 10) std::cout << "True\n";
 	return 0;
 }
