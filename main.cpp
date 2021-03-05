@@ -1,53 +1,11 @@
 #include <iostream>
 #include <stdarg.h>
+#include "task1.h"
+#include "task2.h"
+#include "task3.h"
+#include "task4.h"
 
-void fillArray(int size, int *arr){
-    for (int i = 1; i <= size; ++i) {
-        arr[i-1] = i*3 - 2;
-    }
-}
-
-
-bool isItLucky(int size, int *arr){
-    for (int i = 0; i < size - 1; ++i) {
-        int lsum = 0;
-        int rsum = 0;
-        for (int j = 0; j <= i; ++j) {
-            lsum += arr[j];
-        }
-        for (int j = i + 1; j < size; ++j) {
-            rsum += arr[j];
-        }
-        if (lsum == rsum) return 1;
-    }
-    return 0;
-}
-
-
-void shiftArray(int size, int *arr, int shift){
-    int pos = 0;
-    int temp;
-    shift %= size;
-    if (shift < 0) shift = size + shift;
-    temp = arr[0];
-    for (int i = 0; i < size; ++i) {
-        pos = (pos + shift) % size;
-        //exchange values arr[pos] and temp
-        arr[pos] ^= temp;
-        temp ^= arr[pos];
-        arr[pos] ^= temp;
-    }
-}
-
-
-void invertArray(int count, ... ){
-    va_list args;
-    va_start(args, count);
-    for (int i = 0; i < count; i++) {
-        std::cout << !va_arg(args, int) << " ";
-    }
-    va_end(args);
-}
+using namespace hw_5;
 
 int main() {
     //Task 1. Задать целочисленный массив, состоящий из элементов 0 и 1.
@@ -91,5 +49,7 @@ int main() {
     // чтобы она работала с аргументом переменной длины
     invertArray(5, 1,0,1,0,1);
     std::cout <<"\n";
+    //Task 6. Написать все функции в отдельных файлах в одном пространстве имён,
+    // вызвать их на исполнение в основном файле программы используя указатели на функции.
     return 0;
 }
