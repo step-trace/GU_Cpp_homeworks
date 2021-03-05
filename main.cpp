@@ -5,6 +5,8 @@ void fillArray(int size, int *arr){
         arr[i-1] = i*3 - 2;
     }
 }
+
+
 bool isItLucky(int size, int *arr){
     for (int i = 0; i < size - 1; ++i) {
         int lsum = 0;
@@ -18,6 +20,22 @@ bool isItLucky(int size, int *arr){
         if (lsum == rsum) return 1;
     }
     return 0;
+}
+
+
+void shiftArray(int size, int *arr, int shift){
+    int pos = 0;
+    int temp;
+    shift %= size;
+    if (shift < 0) shift = size + shift;
+    temp = arr[0];
+    for (int i = 0; i < size; ++i) {
+        pos = (pos + shift) % size;
+        //exchange values arr[pos] and temp
+        arr[pos] ^= temp;
+        temp ^= arr[pos];
+        arr[pos] ^= temp;
+    }
 }
 
 int main() {
@@ -49,5 +67,14 @@ int main() {
     int luckyArray[5] = {10, 1, 2, 3, 4};
     bool result = isItLucky(5, luckyArray);
     std::cout << result << "\n";
+    //Task 4. Написать функцию, которой на вход подаётся одномерный массив и число n
+    // (может быть положительным, или отрицательным), при этом
+    // функция должна циклически сместить все элементы массива на n позиций.
+    int arr[5] = {1,2,3,4,5};
+    shiftArray(5,arr, -2);
+    for (int i = 0; i < 5; ++i) {
+        std::cout << arr[i] << "  ";
+    }
+    std::cout <<"\n";
     return 0;
 }
