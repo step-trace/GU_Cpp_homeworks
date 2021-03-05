@@ -5,6 +5,20 @@ void fillArray(int size, int *arr){
         arr[i-1] = i*3 - 2;
     }
 }
+bool isItLucky(int size, int *arr){
+    for (int i = 0; i < size - 1; ++i) {
+        int lsum = 0;
+        int rsum = 0;
+        for (int j = 0; j <= i; ++j) {
+            lsum += arr[j];
+        }
+        for (int j = i + 1; j < size; ++j) {
+            rsum += arr[j];
+        }
+        if (lsum == rsum) return 1;
+    }
+    return 0;
+}
 
 int main() {
     //Task 1. Задать целочисленный массив, состоящий из элементов 0 и 1.
@@ -26,5 +40,14 @@ int main() {
         std::cout << toFillArray[i] << "  ";
     }
     std::cout <<"\n";
+    //Task 3. Написать функцию, в которую передается не пустой одномерный целочисленный массив,
+    // функция должна вернуть истину если в массиве есть место,
+    // в котором сумма левой и правой части массива равны.
+    // Примеры: checkBalance([1, 1, 1, || 2, 1]) → true,
+    // checkBalance ([2, 1, 1, 2, 1]) → false, checkBalance ([10, || 1, 2, 3, 4]) → true.
+    // Абстрактная граница показана символами ||, эти символы в массив не входят.
+    int luckyArray[5] = {10, 1, 2, 3, 4};
+    bool result = isItLucky(5, luckyArray);
+    std::cout << result << "\n";
     return 0;
 }
