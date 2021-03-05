@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdarg.h>
 
 void fillArray(int size, int *arr){
     for (int i = 1; i <= size; ++i) {
@@ -38,6 +39,16 @@ void shiftArray(int size, int *arr, int shift){
     }
 }
 
+
+void invertArray(int count, ... ){
+    va_list args;
+    va_start(args, count);
+    for (int i = 0; i < count; i++) {
+        std::cout << !va_arg(args, int) << " ";
+    }
+    va_end(args);
+}
+
 int main() {
     //Task 1. Задать целочисленный массив, состоящий из элементов 0 и 1.
     // Например: [ 1, 1, 0, 0, 1, 0, 1, 1, 0, 0 ].
@@ -75,6 +86,10 @@ int main() {
     for (int i = 0; i < 5; ++i) {
         std::cout << arr[i] << "  ";
     }
+    std::cout <<"\n";
+    //Task 5. Написать функцию из первого задания так,
+    // чтобы она работала с аргументом переменной длины
+    invertArray(5, 1,0,1,0,1);
     std::cout <<"\n";
     return 0;
 }
