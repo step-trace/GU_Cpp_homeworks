@@ -60,18 +60,16 @@ int wordIndex(std::string word, std::string fileName){
     char *buffer = new char[fileSize];
     file.read(buffer, fileSize);
     file.close();
-    int i = 0, j = 0;
-    while(i < fileSize){
-        if (buffer[i] == word[j]) j++;
-        else {
-            i -= j;
-            j = 0;
+    int i, j;
+    int wordSize = word.size();
+    for (i = 0; i < fileSize - wordSize; i++){
+        for (j = 0; j < wordSize; j++){
+            if (buffer[i+j] != word[j]) break;
         }
-        if (j == word.size()) {
+        if (j == wordSize) {
             delete [] buffer;
-            return i - j + 2;
+            return i+1;
         }
-        i++;
     }
     delete [] buffer;
     return -1;
