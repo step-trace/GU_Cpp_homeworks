@@ -45,6 +45,38 @@ int concat(std::string fileName1, std::string fileName2){
     return 0;
 }
 
+int wordIndex(std::string word, std::string fileName){
+    int fileSize = getFileSize(fileName);
+    if (fileSize == 0) {
+        std::cout << "File doesn't exist or empty\n";
+        return -1;
+    }
+    std::ifstream file(fileName, std::ios::in);
+    if (!file.is_open()) {
+        std::cout << "Couldn't open file: " << fileName << "\n";
+        return -1;
+    }
+    //с буферизацией должно быть быстрее...
+    char *buffer = new char[fileSize];
+    file.read(buffer, fileSize);
+    file.close();
+    int i = 0, j = 0;
+    while(i < fileSize){
+        if (buffer[i] == word[j]) j++;
+        else {
+            i -= j;
+            j = 0;
+        }
+        if (j == word.size()) {
+            delete [] buffer;
+            return i - j + 2;
+        }
+        i++;
+    }
+    delete [] buffer;
+    return -1;
+}
+
 int main(int argc, char* argv[]) {
     //Task 1. Написать программу, которая создаст два текстовых файла,
     // примерно по 50-100 символов в каждом (особого значения не имеет);
@@ -65,5 +97,17 @@ int main(int argc, char* argv[]) {
     int result = concat("lorem.txt", "AAA.txt");
     if (result == 0) std::cout << "Concatenation has done successfully!\n";
     else std::cout << "Concatenation has failed! ErrorCode: " << result << "\n";
+    //Task 3. * Написать программу, которая проверяет присутствует ли указанное пользователем
+    // при запуске программы слово в указанном пользователем файле (для простоты работаем только с латиницей).
+    if (argc < 2) {
+        std::cout << "Usage: hw6 word [fileName]\n";
+        return 1;
+    }
+    std::string defaultFileName("lorem.txt");
+    std::string word(argv[1]);
+    std::string fileName = (argc > 2) ? argv[2] : defaultFileName;
+    result = wordIndex(word, fileName);
+    if (result < 0) std::cout << "Word: \'" << word << "\' was not found\n";
+    else std::cout << "Word: \'" << word << "\' was found at " << result << " position\n";
 	return 0;
 }
