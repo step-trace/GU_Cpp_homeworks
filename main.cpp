@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int getFileSize(const char* fileName){
     FILE *file = fopen(fileName, "r");
@@ -6,6 +7,40 @@ int getFileSize(const char* fileName){
     int fileSize = ftell(file);
     fclose(file);
     return fileSize;
+}
+
+int concat(const char* fileName1, const char* fileName2, const char* fileName3){
+    int file_1_size = getFileSize(fileName1);
+    int file_2_size = getFileSize(fileName2);
+    if (!file_1_size || !file_2_size) {
+        printf("Files doesn't exist or empty\n");
+        return 1;
+    }
+    char* buffer = (char*)calloc(file_1_size + file_2_size, sizeof(char));
+    FILE *file;
+    file = fopen(fileName1, "r");
+    int result = fread(buffer, 1, file_1_size, file);
+    if (result != file_1_size) {
+        printf("Read file error\n");
+        free(buffer);
+        fclose(file);
+        return 1;
+    }
+    fclose(file);
+    file = fopen(fileName2, "r");
+    result = fread(buffer + file_1_size, 1, file_2_size, file);
+    if (result != file_2_size) {
+        printf("Read file error\n");
+        free(buffer);
+        fclose(file);
+        return 1;
+    }
+    fclose(file);
+    file = fopen(fileName3, "w");
+    fwrite(buffer, 1, file_1_size + file_2_size, file);
+    fclose(file);
+    free(buffer);
+    return 0;
 }
 
 int main() {
@@ -27,5 +62,7 @@ int main() {
     count = sizeof text_2 / sizeof text_2[0];
     fwrite(text_2, sizeof text_1[0], count-1, file);
     fclose(file);
+    //Task 2.
+    concat("text.txt", "text2.txt", "output.txt");
     return 0;
 }
